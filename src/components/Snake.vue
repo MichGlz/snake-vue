@@ -1,7 +1,8 @@
 <template>
-  <div class="snake" :class="{ head: this.isHead }">
-    <p>{{ index }}</p>
-  </div>
+  <div
+    class="snake"
+    :class="{ head: this.segment.isHead, tail: this.segment.isTail }"
+  ></div>
 </template>
 
 <script>
@@ -11,9 +12,7 @@ export default {
     index: Number,
   },
   data() {
-    return {
-      isHead: this.index === 0,
-    };
+    return {};
   },
   computed() {},
 };
@@ -26,6 +25,11 @@ export default {
 }
 .head {
   border-radius: 20% 20% 0 0;
+  transform: rotate(v-bind("segment.dir"));
+}
+
+.tail {
+  border-radius: 0 0 120% 120%;
   transform: rotate(v-bind("segment.dir"));
 }
 </style>

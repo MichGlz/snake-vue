@@ -1,5 +1,5 @@
 <template>
-  <p>level:{{ speed }} key:{{ keyDown }}</p>
+  <p>level:{{ speed }} key:{{ keyDown }} {{ gridSize }}</p>
   <div id="game-board">
     <Snake
       v-for="(segment, index) in snakeSegments"
@@ -7,11 +7,18 @@
       :index="index"
       :segment="segment"
     />
+    <Food :position="foodPosition" />
   </div>
 </template>
 
 <script>
 import { getInputDirection } from "../modules/input.js";
+import {
+  update as updateSnake,
+  equalPositions,
+  onSnake,
+} from "../modules/updateSnake.js";
+import Food from "./Food.vue";
 import Snake from "./Snake.vue";
 export default {
   props: {
@@ -19,6 +26,7 @@ export default {
   },
   components: {
     Snake,
+    Food,
   },
   data() {
     return {
@@ -27,10 +35,11 @@ export default {
       keyDown: null,
       isGameRuning: false,
       count: 0,
-      snakeSegments: [
-        { x: 11, y: 11, dir: "0deg" },
-        { x: 11, y: 12, dir: "0deg" },
-      ],
+      gridSize: 21,
+      foodPosition: {},
+      onFood: false,
+      snakeSegments: [{ x: 11, y: 11, dir: "90deg" }],
+      snakeDirection: { x: 0, y: 0, dir: "" },
     };
   },
   methods: {
@@ -44,7 +53,7 @@ export default {
         }
         return;
       }
-      getInputDirection(key);
+      this.snakeDirection = getInputDirection(key, this.snakeDirection);
     },
     gameLoop() {
       if (this.gameOver) {
@@ -54,10 +63,35 @@ export default {
         if (!this.gamePaused) {
           console.log(this.count);
           this.count += 1;
-          // updateGame();
+          this.updateGame();
           // renderGame();
         }
       }, 1000 / this.speed);
+    },
+    updateGame() {
+      this.snakeSegments = updateSnake(
+        [...this.snakeSegments],
+        this.snakeDirection,
+        this.foodPosition
+      );
+
+      //   if (equalPositions(this.snakeSegments[0], this.foodPosition)) {
+      //     console.log("apple");
+      //     this.foodPosition = this.getRandomPosition();
+      //   }
+    },
+    getRandomPosition() {
+      let newPosition;
+      while (newPosition == null || onSnake(newPosition)) {
+        newPosition = this.randomGridPosition();
+      }
+      return newPosition;
+    },
+    randomGridPosition() {
+      return {
+        x: Math.floor(Math.random() * this.gridSize) + 1,
+        y: Math.floor(Math.random() * this.gridSize) + 1,
+      };
     },
   },
   computed: {},
@@ -65,63 +99,9 @@ export default {
     window.addEventListener("keydown", (e) => {
       this.handleKeydown(e.code);
     });
+    this.foodPosition = this.getRandomPosition();
   },
 };
-// import { ref } from "vue";
-
-// defineProps({
-//   msg: String,
-// });
-
-// const gameOver = ref(false);
-// const gameBoard = document.getElementById("game-board");
-
-// const updateGame = () => {
-//   updateSnake();
-//   updateFood();
-//   checkCollision();
-// };
-
-// const renderGame = () => {
-//   gameBoard.innerHTML = "";
-//   renderSnake(gameBoard);
-//   renderFood(gameBoard);
-// };
-
-// const checkCollision = () => {
-//   gameOver = outsideGrid(getSnakeHead()) || snakeIntersection();
-// };
-
-// const gameLoop = () => {
-//   if (gameOver) {
-//     return alert("you lose");
-//   }
-
-//   setInterval(() => {
-//     updateGame();
-//     renderGame();
-//   }, 1000 / 4);
-// };
-
-// gameLoop();
-
-// const gameLoop = (currentTime) => {
-//   if (gameOver) {
-//     return alert("you lose");
-//   }
-
-//   window.requestAnimationFrame(gameLoop);
-
-//   const secsSinceLastRender = (currentTime - lastRenderTime) / 1000;
-//   if (secsSinceLastRender < 1 / speed) return;
-//   console.log(secsSinceLastRender);
-//   lastRenderTime = currentTime;
-
-//   updateGame();
-//   renderGame();
-// };
-
-// window.requestAnimationFrame(gameLoop);
 </script>
 
 <style scoped>

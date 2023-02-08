@@ -1,10 +1,6 @@
 
-
-
-
-
-export const getInputDirection = (key) => {
-    let inputDirection = { x: 0, y: 0, dir: "" };
+export const getInputDirection = (key, direction) => {
+    const inputDirection = { ...direction };
 
     if (inputDirection.y !== 1 && key === 'ArrowUp' || inputDirection.y !== 1 && key === 'KeyW') {
         inputDirection.x = 0;
