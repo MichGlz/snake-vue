@@ -1,14 +1,24 @@
 <template>
-  <h1>{{ speed }} {{ keyDown }}</h1>
+  <p>level:{{ speed }} key:{{ keyDown }}</p>
   <div id="game-board">
-    <Snake />
+    <Snake
+      v-for="(segment, index) in snakeSegments"
+      :key="index + 1"
+      :index="index"
+      :segment="segment"
+    />
   </div>
 </template>
 
 <script>
+import { getInputDirection } from "../modules/input.js";
+import Snake from "./Snake.vue";
 export default {
   props: {
     speed: Number,
+  },
+  components: {
+    Snake,
   },
   data() {
     return {
@@ -17,6 +27,10 @@ export default {
       keyDown: null,
       isGameRuning: false,
       count: 0,
+      snakeSegments: [
+        { x: 11, y: 11, dir: "0deg" },
+        { x: 11, y: 12, dir: "0deg" },
+      ],
     };
   },
   methods: {
@@ -28,10 +42,9 @@ export default {
         } else {
           this.gamePaused = !this.gamePaused;
         }
+        return;
       }
-      console.log(key);
-      console.log(this.gamePaused);
-      this.keyDown = key;
+      getInputDirection(key);
     },
     gameLoop() {
       if (this.gameOver) {

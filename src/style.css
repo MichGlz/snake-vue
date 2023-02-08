@@ -136,11 +136,11 @@ body {
   /* animation: growSize var(--speed) ease-in-out infinite forwards; */
 }
 
-.head {
+/* .head {
   border-radius: 20% 20% 0 0;
   --rotation: 0deg;
   transform: rotate(var(--rotation));
-}
+} */
 
 .tail {
   border-radius: 0 0 120% 120%;
