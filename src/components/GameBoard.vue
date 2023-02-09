@@ -38,8 +38,8 @@ export default {
       gridSize: 21,
       foodPosition: {},
       onFood: false,
-      snakeSegments: [{ x: 11, y: 11, dir: "90deg" }],
-      snakeDirection: { x: 0, y: 0, dir: "" },
+      snakeSegments: [{ x: 11, y: 11, dir: "0deg", isHead: true }],
+      snakeDirection: { x: 0, y: -1, dir: "0deg" },
     };
   },
   methods: {
@@ -56,21 +56,21 @@ export default {
       this.snakeDirection = getInputDirection(key, this.snakeDirection);
     },
     gameLoop() {
-      if (this.gameOver) {
-        return alert("you lose");
-      }
-      setInterval(() => {
+      const timeId = setInterval(() => {
         if (!this.gamePaused) {
-          console.log(this.count);
-          this.count += 1;
           this.updateGame();
-          // renderGame();
+        }
+        if (this.gameOver) {
+          clearInterval(timeId);
+          alert("you lose");
         }
       }, 1000 / this.speed);
     },
     updateGame() {
+      this.count += 1;
       this.renderSnake();
       this.renderFood();
+      this.checkColision();
     },
     renderSnake() {
       this.snakeSegments = updateSnake(
@@ -84,6 +84,26 @@ export default {
         console.log("apple");
         this.foodPosition = this.getRandomPosition();
       }
+    },
+    checkColision() {
+      if (this.headIsOut(this.snakeSegments[0]) || this.headOnSnake()) {
+        this.gameOver = true;
+      }
+    },
+    headIsOut(position) {
+      return (
+        position.x < 1 ||
+        position.x > this.gridSize ||
+        position.y < 1 ||
+        position.y > this.gridSize
+      );
+    },
+    headOnSnake() {
+      const body = [...this.snakeSegments];
+      body.shift();
+      return body.some((segment) => {
+        return equalPositions(segment, this.snakeSegments[0]);
+      });
     },
     getRandomPosition() {
       let newPosition;
