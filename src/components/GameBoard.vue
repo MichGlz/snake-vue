@@ -1,7 +1,7 @@
 <template>
   <p>level:{{ speed }} key:{{ keyDown }} {{ gridSize }}</p>
   <div id="game-board">
-    <Snake
+    <SnakeSegment
       v-for="(segment, index) in snakeSegments"
       :key="index + 1"
       :index="index"
@@ -19,13 +19,13 @@ import {
   onSnake,
 } from "../modules/updateSnake.js";
 import Food from "./Food.vue";
-import Snake from "./Snake.vue";
+import SnakeSegment from "./SnakeSegment.vue";
 export default {
   props: {
     speed: Number,
   },
   components: {
-    Snake,
+    SnakeSegment,
     Food,
   },
   data() {
@@ -69,20 +69,25 @@ export default {
       }, 1000 / this.speed);
     },
     updateGame() {
+      this.renderSnake();
+      this.renderFood();
+    },
+    renderSnake() {
       this.snakeSegments = updateSnake(
         [...this.snakeSegments],
         this.snakeDirection,
         this.foodPosition
       );
-
-      //   if (equalPositions(this.snakeSegments[0], this.foodPosition)) {
-      //     console.log("apple");
-      //     this.foodPosition = this.getRandomPosition();
-      //   }
+    },
+    renderFood() {
+      if (equalPositions(this.snakeSegments[0], this.foodPosition)) {
+        console.log("apple");
+        this.foodPosition = this.getRandomPosition();
+      }
     },
     getRandomPosition() {
       let newPosition;
-      while (newPosition == null || onSnake(newPosition)) {
+      while (newPosition == null || onSnake(newPosition, this.snakeSegments)) {
         newPosition = this.randomGridPosition();
       }
       return newPosition;
@@ -104,8 +109,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.read-the-docs {
-  color: #888;
-}
-</style>
+<style scoped></style>

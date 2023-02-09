@@ -3,22 +3,13 @@
 const NUMBER_OF_SEGMENTS = 1;
 const gridSize = 21;
 let newSegments = 0;
-let snakeBody = [];
+// let snakeBody = [];
 
 export const update = (snakeSegments, snakeDirection, foodPosition) => {
-    snakeBody = [...snakeSegments]
+    const snakeBody = [...snakeSegments]
 
     //add the number of segments
     addSegments(snakeBody);
-
-    //check if 
-
-    if (equalPositions(snakeSegments[0], foodPosition)) {
-        console.log("snake")
-        newSegments = NUMBER_OF_SEGMENTS;
-        foodPosition = getRandomPosition();
-    }
-
 
     //update de position of each segment for the prev segment in the arr 
     for (let i = snakeBody.length - 2; i >= 0; i--) {
@@ -37,11 +28,18 @@ export const update = (snakeSegments, snakeDirection, foodPosition) => {
         snakeBody[snakeBody.length - 1].dir = snakeBody[snakeBody.length - 2].dir
     }
 
+    //check if eat 
+    if (equalPositions(snakeSegments[0], foodPosition)) {
+        console.log("snake")
+        newSegments = NUMBER_OF_SEGMENTS;
+    }
+
     return snakeBody;
 }
 
-export const onSnake = (position) => {
-    return snakeBody.some(segment => {
+export const onSnake = (position, snakeBody) => {
+    const body = [...snakeBody]
+    return body.some(segment => {
         return equalPositions(segment, position)
     })
 }
@@ -58,23 +56,24 @@ export const equalPositions = (pos1, pos2) => {
     return pos1.x === pos2.x && pos1.y === pos2.y
 }
 
-const addSegments = () => {
+const addSegments = (snakeBody) => {
     for (let i = 0; i < newSegments; i++) {
         snakeBody.push({ ...snakeBody[snakeBody.length - 1] })
     }
     newSegments = 0;
 }
 
-const getRandomPosition = () => {
-    let newPosition;
-    while (newPosition == null || onSnake(newPosition)) {
-        newPosition = randomGridPosition();
-    }
-    return newPosition;
-}
-const randomGridPosition = () => {
-    return {
-        x: Math.floor(Math.random() * gridSize) + 1,
-        y: Math.floor(Math.random() * gridSize) + 1,
-    };
-}
+// const getRandomPosition = () => {
+//     let newPosition;
+//     while (newPosition == null || onSnake(newPosition)) {
+//         newPosition = randomGridPosition();
+//     }
+//     return newPosition;
+// }
+
+// const randomGridPosition = () => {
+//     return {
+//         x: Math.floor(Math.random() * gridSize) + 1,
+//         y: Math.floor(Math.random() * gridSize) + 1,
+//     };
+// }

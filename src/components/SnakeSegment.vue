@@ -25,7 +25,25 @@ export default {
 }
 .head {
   border-radius: 20% 20% 0 0;
-  transform: rotate(v-bind("segment.dir"));
+  transform: rotate(v-bind("segment.dir")) scale(1.2);
+  position: relative;
+}
+
+.head::before,
+.head::after {
+  content: "";
+  position: absolute;
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  bottom: 0;
+  left: 10%;
+  background-color: #907323;
+}
+
+.head::after {
+  left: unset;
+  right: 10%;
 }
 
 .tail {
