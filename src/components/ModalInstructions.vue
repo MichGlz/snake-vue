@@ -36,7 +36,7 @@ export default {
       this.$emit("agree-submited", this.agree);
     },
   },
-  computed() {},
+  computed: {},
 };
 </script>
 

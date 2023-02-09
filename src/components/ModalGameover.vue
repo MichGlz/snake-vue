@@ -6,6 +6,8 @@
         <p>try again!</p>
         <p>{{ user.name }} your score was {{ user.score }}</p>
 
+        <ScoreList :user="user" />
+
         <button class="btn-modal" type="button" value="Submit" @click="onclick">
           OK
         </button>
@@ -14,9 +16,13 @@
   </div>
 </template>
 <script>
+import ScoreList from "./ScoreList.vue";
 export default {
   props: {
     user: Object,
+  },
+  components: {
+    ScoreList,
   },
   data() {
     return {
@@ -28,7 +34,6 @@ export default {
       this.$emit("reset-game", this.agree);
     },
   },
-  computed() {},
 };
 </script>
 
@@ -41,7 +46,6 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 10;
-  border: solid 2px hotpink;
 }
 
 .form-modal {
