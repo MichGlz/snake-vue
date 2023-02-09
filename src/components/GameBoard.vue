@@ -1,4 +1,9 @@
 <template>
+  <ModalInstructions
+    v-if="!isAgree"
+    :name="user.name"
+    @agree-submited="updateAgree"
+  />
   <p>level:{{ speed }} score:{{ score }} {{ user.name }}</p>
   <div id="game-board">
     <SnakeSegment
@@ -20,6 +25,7 @@ import {
 } from "../modules/updateSnake.js";
 import Food from "./Food.vue";
 import SnakeSegment from "./SnakeSegment.vue";
+import ModalInstructions from "./ModalInstructions.vue";
 export default {
   props: {
     speed: Number,
@@ -29,6 +35,7 @@ export default {
   components: {
     SnakeSegment,
     Food,
+    ModalInstructions,
   },
   data() {
     return {
@@ -36,6 +43,7 @@ export default {
       gamePaused: false,
       keyDown: null,
       isGameRuning: false,
+      isAgree: false,
       count: 0,
       gridSize: 21,
       foodPosition: {},
@@ -109,6 +117,10 @@ export default {
       return body.some((segment) => {
         return equalPositions(segment, this.snakeSegments[0]);
       });
+    },
+    updateAgree(val) {
+      console.log("updateAgree", val);
+      this.isAgree = val;
     },
     getRandomPosition() {
       let newPosition;

@@ -48,7 +48,7 @@ export default {
         }
         return 0;
       });
-      list.slice(0, 9);
+      list = list.slice(0, 9);
       localStorage.setItem("scoreList", `${JSON.stringify(list)}`);
       this.scoreList = [...list];
     },
