@@ -14,7 +14,7 @@
     :name="user.name"
     @agree-submited="updateAgree"
   />
-  <ModalGameover :user="user" v-if="gameOver" />
+  <ModalGameover v-if="gameOver" :user="user" @reset-game="resetGame" />
 </template>
 
 <script>
@@ -51,14 +51,18 @@ export default {
       gridSize: 21,
       foodPosition: {},
       onFood: false,
-      snakeSegments: [{ x: 11, y: 11, dir: "0deg", isHead: true }],
+      snakeSegments: [
+        { x: 11, y: 10, dir: "0deg", isHead: true },
+        { x: 11, y: 11, dir: "0deg", isHead: false },
+        { x: 11, y: 12, dir: "0deg", isTail: true },
+      ],
       snakeDirection: { x: 0, y: -1, dir: "0deg" },
       score: 0,
     };
   },
   methods: {
     handleKeydown(key) {
-      if (key === "Space") {
+      if (key === "Space" && this.isAgree) {
         if (!this.isGameRuning) {
           this.gameLoop();
           this.isGameRuning = true;
@@ -122,6 +126,24 @@ export default {
     },
     updateAgree(val) {
       this.isAgree = val;
+    },
+    resetGame() {
+      this.gameOver = false;
+      this.gamePaused = false;
+      this.keyDown = null;
+      this.isGameRuning = false;
+      this.isAgree = false;
+      this.count = 0;
+      this.foodPosition = this.randomGridPosition();
+      this.onFood = false;
+      this.snakeSegments = [
+        { x: 11, y: 10, dir: "0deg", isHead: true },
+        { x: 11, y: 11, dir: "0deg", isHead: false },
+        { x: 11, y: 12, dir: "0deg", isTail: true },
+      ];
+      this.snakeDirection = { x: 0, y: -1, dir: "0deg" };
+      this.score = 0;
+      this.user.score = 0;
     },
     getRandomPosition() {
       let newPosition;
