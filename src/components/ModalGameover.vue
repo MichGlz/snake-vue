@@ -2,19 +2,11 @@
   <div class="modal-wrapper">
     <div class="modal">
       <div class="form-modal">
-        <p>Hi {{ name }} welcome to the SnakeGame!</p>
-        <p>
-          To start the game and pause it use the spacebar, to move around use
-          the arrow keys or "W", "A", "S", and "D"
-        </p>
+        <p class="big-text">GAME OVER</p>
+        <p>try again!</p>
+        <p>{{ user.name }} your score was {{ user.score }}</p>
 
-        <button
-          class="btn-modal"
-          type="button"
-          value="Submit"
-          autofocus
-          @click="onsubmit"
-        >
+        <button class="btn-modal" type="button" value="Submit" @click="onclick">
           OK
         </button>
       </div>
@@ -24,7 +16,7 @@
 <script>
 export default {
   props: {
-    name: String,
+    user: Object,
   },
   data() {
     return {
@@ -32,8 +24,8 @@ export default {
     };
   },
   methods: {
-    onsubmit() {
-      this.$emit("agree-submited", this.agree);
+    onclick() {
+      this.$emit("reset-game", this.agree);
     },
   },
   computed() {},
@@ -49,15 +41,16 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 10;
+  border: solid 2px hotpink;
 }
 
 .form-modal {
-  width: 80%;
+  /* width: 80%; */
   display: flex;
   margin: auto;
   padding: 2rem;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 1rem;
   background-color: #c0992f;
@@ -66,8 +59,8 @@ export default {
   box-shadow: 0 0 15px 2px#3d3d3d;
 }
 
-.form-modal p {
-  line-height: 1.5;
+.big-text {
+  font-size: 160%;
 }
 .btn-modal {
   padding: 1vmin;

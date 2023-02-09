@@ -84,6 +84,10 @@ export default {
   gap: 0.5rem;
 }
 
+.form-modal p {
+  line-height: 1.5;
+}
+
 .form-modal > .btn-modal {
   opacity: 0.5;
   pointer-events: none;

@@ -14,6 +14,7 @@
     :name="user.name"
     @agree-submited="updateAgree"
   />
+  <ModalGameover :user="user" v-if="gameOver" />
 </template>
 
 <script>
@@ -26,6 +27,7 @@ import {
 import Food from "./Food.vue";
 import SnakeSegment from "./SnakeSegment.vue";
 import ModalInstructions from "./ModalInstructions.vue";
+import ModalGameover from "./ModalGameover.vue";
 export default {
   props: {
     speed: Number,
@@ -36,6 +38,7 @@ export default {
     SnakeSegment,
     Food,
     ModalInstructions,
+    ModalGameover,
   },
   data() {
     return {
@@ -73,12 +76,11 @@ export default {
         }
         if (this.gameOver) {
           clearInterval(timeId);
-          alert("you lose");
+          // alert("you lose");
         }
       }, 1000 / this.speed);
     },
     updateGame() {
-      this.count += 1;
       this.renderSnake();
       this.renderFood();
       this.checkColision();
