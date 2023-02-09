@@ -1,5 +1,10 @@
 <template>
-  <p>level:{{ speed }} key:{{ keyDown }} {{ gridSize }}</p>
+  <ModalInstructions
+    v-if="!isAgree"
+    :name="user.name"
+    @agree-submited="updateAgree"
+  />
+  <p>level:{{ speed }} score:{{ score }} {{ user.name }}</p>
   <div id="game-board">
     <SnakeSegment
       v-for="(segment, index) in snakeSegments"
@@ -20,13 +25,17 @@ import {
 } from "../modules/updateSnake.js";
 import Food from "./Food.vue";
 import SnakeSegment from "./SnakeSegment.vue";
+import ModalInstructions from "./ModalInstructions.vue";
 export default {
   props: {
     speed: Number,
+    user: Object,
+    updateScoreList: Function,
   },
   components: {
     SnakeSegment,
     Food,
+    ModalInstructions,
   },
   data() {
     return {
@@ -34,12 +43,14 @@ export default {
       gamePaused: false,
       keyDown: null,
       isGameRuning: false,
+      isAgree: false,
       count: 0,
       gridSize: 21,
       foodPosition: {},
       onFood: false,
       snakeSegments: [{ x: 11, y: 11, dir: "0deg", isHead: true }],
       snakeDirection: { x: 0, y: -1, dir: "0deg" },
+      score: 0,
     };
   },
   methods: {
@@ -81,13 +92,15 @@ export default {
     },
     renderFood() {
       if (equalPositions(this.snakeSegments[0], this.foodPosition)) {
-        console.log("apple");
+        this.score += 1;
         this.foodPosition = this.getRandomPosition();
       }
     },
     checkColision() {
       if (this.headIsOut(this.snakeSegments[0]) || this.headOnSnake()) {
         this.gameOver = true;
+        this.user.score = this.score;
+        this.updateScoreList(this.user);
       }
     },
     headIsOut(position) {
@@ -104,6 +117,10 @@ export default {
       return body.some((segment) => {
         return equalPositions(segment, this.snakeSegments[0]);
       });
+    },
+    updateAgree(val) {
+      console.log("updateAgree", val);
+      this.isAgree = val;
     },
     getRandomPosition() {
       let newPosition;
