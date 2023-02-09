@@ -6,7 +6,12 @@
       :updateUser="updateUser"
       @name-submited="updateUser"
     />
-    <GameBoard v-else :speed="FRAMES_PER_SECOND" :userName="userName" />
+    <GameBoard
+      v-else
+      :speed="FRAMES_PER_SECOND"
+      :user="user"
+      :updateScoreList="updateScoreList"
+    />
   </div>
 </template>
 
@@ -36,13 +41,14 @@ export default {
       list.push(user);
       list.sort((a, b) => {
         if (a.score < b.score) {
-          return -1;
+          return 1;
         }
         if (a.score > b.score) {
-          return 1;
+          return -1;
         }
         return 0;
       });
+      list.slice(0, 9);
       localStorage.setItem("scoreList", `${JSON.stringify(list)}`);
       this.scoreList = [...list];
     },
@@ -58,17 +64,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<style scoped></style>

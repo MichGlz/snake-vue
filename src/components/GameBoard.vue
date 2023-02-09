@@ -1,5 +1,5 @@
 <template>
-  <p>level:{{ speed }} key:{{ keyDown }} {{ gridSize }}</p>
+  <p>level:{{ speed }} score:{{ score }} {{ user.name }}</p>
   <div id="game-board">
     <SnakeSegment
       v-for="(segment, index) in snakeSegments"
@@ -23,6 +23,8 @@ import SnakeSegment from "./SnakeSegment.vue";
 export default {
   props: {
     speed: Number,
+    user: Object,
+    updateScoreList: Function,
   },
   components: {
     SnakeSegment,
@@ -40,6 +42,7 @@ export default {
       onFood: false,
       snakeSegments: [{ x: 11, y: 11, dir: "0deg", isHead: true }],
       snakeDirection: { x: 0, y: -1, dir: "0deg" },
+      score: 0,
     };
   },
   methods: {
@@ -81,13 +84,15 @@ export default {
     },
     renderFood() {
       if (equalPositions(this.snakeSegments[0], this.foodPosition)) {
-        console.log("apple");
+        this.score += 1;
         this.foodPosition = this.getRandomPosition();
       }
     },
     checkColision() {
       if (this.headIsOut(this.snakeSegments[0]) || this.headOnSnake()) {
         this.gameOver = true;
+        this.user.score = this.score;
+        this.updateScoreList(this.user);
       }
     },
     headIsOut(position) {
