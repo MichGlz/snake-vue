@@ -1,9 +1,4 @@
 <template>
-  <ModalInstructions
-    v-if="!isAgree"
-    :name="user.name"
-    @agree-submited="updateAgree"
-  />
   <p>level:{{ speed }} score:{{ score }} {{ user.name }}</p>
   <div id="game-board">
     <SnakeSegment
@@ -14,6 +9,11 @@
     />
     <Food :position="foodPosition" />
   </div>
+  <ModalInstructions
+    v-if="!isAgree"
+    :name="user.name"
+    @agree-submited="updateAgree"
+  />
 </template>
 
 <script>
@@ -119,7 +119,6 @@ export default {
       });
     },
     updateAgree(val) {
-      console.log("updateAgree", val);
       this.isAgree = val;
     },
     getRandomPosition() {

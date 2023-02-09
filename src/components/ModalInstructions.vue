@@ -1,15 +1,23 @@
 <template>
   <div class="modal-wrapper">
     <div class="modal">
-      <form class="form-modal" @submit.prevent="onsubmit">
+      <div class="form-modal">
         <p>Hi {{ name }} welcome to the SnakeGame!</p>
         <p>
-          To start the game and puased use the the spacebar, to move around use
+          To start the game and puase it use the spacebar, to move around use
           the arrow keys or "W", "A", "S", and "D"
         </p>
 
-        <button class="btn-modal" type="submit" value="Submit">OK</button>
-      </form>
+        <button
+          class="btn-modal"
+          type="button"
+          value="Submit"
+          autofocus
+          @click="onsubmit"
+        >
+          OK
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -68,7 +76,9 @@ export default {
   align-self: flex-end;
 }
 
-.btn-modal:hover {
+.btn-modal:hover,
+.btn-modal:focus {
   box-shadow: inset 0 0 0 2px #3d3d3d;
+  outline: none;
 }
 </style>

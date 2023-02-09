@@ -11,6 +11,7 @@
             id="userName"
             placeholder="_"
             required
+            autofocus
             v-model="userName"
           />
         </label>
