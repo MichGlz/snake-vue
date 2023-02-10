@@ -6,7 +6,7 @@
       :gamePaused="gamePaused"
       :gameOver="gameOver"
     />
-    <span v-else>0</span>
+    <span v-else>00:00</span>
   </p>
   <div id="game-board">
     <SnakeSegment
