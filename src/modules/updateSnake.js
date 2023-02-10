@@ -30,7 +30,6 @@ export const update = (snakeSegments, snakeDirection, foodPosition) => {
 
     //check if eat 
     if (equalPositions(snakeSegments[0], foodPosition)) {
-        console.log("snake")
         newSegments = NUMBER_OF_SEGMENTS;
     }
 

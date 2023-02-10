@@ -80,7 +80,6 @@ export default {
         if (!this.isGameRuning) {
           this.gameLoop(this.speed);
           this.isGameRuning = true;
-          console.log(this.isGameRuning, "in game");
         } else {
           this.gamePaused = !this.gamePaused;
         }
@@ -95,7 +94,6 @@ export default {
         }
         if (this.gameOver) {
           clearInterval(timeId);
-          // alert("you lose");
         }
         if (this.score === this.level * 10) {
           this.level += 1;

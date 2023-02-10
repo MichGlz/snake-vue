@@ -19,7 +19,6 @@ export default {
       return (this.index + 1) / 20;
     },
     delayStr() {
-      console.log(this.delay + "s");
       return this.delay + "s";
     },
     newTime() {
