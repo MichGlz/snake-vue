@@ -4,7 +4,9 @@
       v-if="isGameRuning"
       :gameRuning="isGameRuning"
       :gamePaused="gamePaused"
+      :gameOver="gameOver"
     />
+    <span v-else>0</span>
   </p>
   <div id="game-board">
     <SnakeSegment

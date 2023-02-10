@@ -6,6 +6,7 @@ export default {
   props: {
     gamePaused: Boolean,
     gameRuning: Boolean,
+    gameOver: Boolean,
   },
   data() {
     return {
@@ -14,15 +15,14 @@ export default {
   },
   methods: {
     startTimer() {
-      console.log("startTimer", this.gameRuning);
-      // Checking if game is paused
-      if (!this.gamePaused) {
-        setTimeout(this.showTime, 1000);
-      }
-    },
-    showTime() {
-      this.counter += 1;
-      this.startTimer();
+      const timeId = setInterval(() => {
+        if (this.gameRuning && !this.gamePaused) {
+          this.counter += 1;
+        }
+        if (this.gameOver) {
+          clearInterval(timeId);
+        }
+      }, 1000);
     },
   },
   computed: {},
