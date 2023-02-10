@@ -1,9 +1,8 @@
 
 
 const NUMBER_OF_SEGMENTS = 1;
-const gridSize = 21;
 let newSegments = 0;
-// let snakeBody = [];
+
 
 export const update = (snakeSegments, snakeDirection, foodPosition) => {
     const snakeBody = [...snakeSegments]
@@ -62,17 +61,3 @@ const addSegments = (snakeBody) => {
     newSegments = 0;
 }
 
-// const getRandomPosition = () => {
-//     let newPosition;
-//     while (newPosition == null || onSnake(newPosition)) {
-//         newPosition = randomGridPosition();
-//     }
-//     return newPosition;
-// }
-
-// const randomGridPosition = () => {
-//     return {
-//         x: Math.floor(Math.random() * gridSize) + 1,
-//         y: Math.floor(Math.random() * gridSize) + 1,
-//     };
-// }

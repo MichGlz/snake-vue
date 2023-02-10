@@ -1,4 +1,5 @@
 
+//check which key was press to modify the direction of the snake 
 export const getInputDirection = (key, direction) => {
     const inputDirection = { ...direction };
 

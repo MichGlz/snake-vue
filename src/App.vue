@@ -58,6 +58,7 @@ export default {
     },
   },
   mounted() {
+    //check if is an score list in the local storage, if not set one
     if (localStorage.getItem("scoreList")) {
       this.scoreList = JSON.parse(localStorage.getItem("scoreList"));
     } else {

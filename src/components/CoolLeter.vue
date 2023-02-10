@@ -9,9 +9,7 @@ export default {
     char: String,
   },
   data() {
-    return {
-      isTime: false,
-    };
+    return {};
   },
   methods: {},
   computed: {
@@ -31,11 +29,6 @@ export default {
       return (this.delay + 1) * 1000;
     },
   },
-  mounted() {
-    setTimeout(() => {
-      this.isTime = true;
-    }, this.timeoutTotal);
-  },
 };
 </script>
 
@@ -47,7 +40,6 @@ span {
   white-space: pre;
   transform-origin: bottom;
   animation: appear 1s cubic-bezier(0.07, 0.67, 0.23, 1.59) 1 forwards;
-  /* animation-delay: var(--delay); */
 }
 
 @keyframes appear {
@@ -59,28 +51,6 @@ span {
   100% {
     transform: scaleY(1) rotate(0);
     opacity: 1;
-  }
-}
-
-span.colored {
-  --new-time: v-bind(newTimeStr);
-  opacity: 1;
-  animation: coloring var(--new-time) ease-out 1 forwards;
-}
-@keyframes coloring {
-  40%,
-  60% {
-    color: blueviolet;
-  }
-
-  80%,
-  20% {
-    color: rgb(231, 169, 88);
-  }
-
-  100%,
-  0% {
-    color: cornsilk;
   }
 }
 </style>
