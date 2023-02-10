@@ -27,7 +27,6 @@ export default {
       this.$emit("reset-game", this.agree);
     },
     matchUser(score) {
-      console.log(this.user, score);
       return score.score == this.user.score && score.name == this.user.name;
     },
   },

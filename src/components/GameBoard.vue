@@ -1,5 +1,11 @@
 <template>
-  <p>level:{{ speed }} score:{{ score }} {{ user.name }}</p>
+  <p>
+    level:{{ level }} score:{{ score }} time:<TimeTracker
+      v-if="isGameRuning"
+      :gameRuning="isGameRuning"
+      :gamePaused="gamePaused"
+    />
+  </p>
   <div id="game-board">
     <SnakeSegment
       v-for="(segment, index) in snakeSegments"
@@ -15,6 +21,7 @@
     @agree-submited="updateAgree"
   />
   <ModalGameover v-if="gameOver" :user="user" @reset-game="resetGame" />
+  <ModalPause v-if="gamePaused" :user="user" />
 </template>
 
 <script>
@@ -28,9 +35,10 @@ import Food from "./Food.vue";
 import SnakeSegment from "./SnakeSegment.vue";
 import ModalInstructions from "./ModalInstructions.vue";
 import ModalGameover from "./ModalGameover.vue";
+import ModalPause from "./ModalPause.vue";
+import TimeTracker from "./TimeTracker.vue";
 export default {
   props: {
-    speed: Number,
     user: Object,
     updateScoreList: Function,
   },
@@ -39,6 +47,8 @@ export default {
     Food,
     ModalInstructions,
     ModalGameover,
+    ModalPause,
+    TimeTracker,
   },
   data() {
     return {
@@ -58,14 +68,17 @@ export default {
       ],
       snakeDirection: { x: 0, y: -1, dir: "0deg" },
       score: 0,
+      speed: 5,
+      level: 1,
     };
   },
   methods: {
     handleKeydown(key) {
       if (key === "Space" && this.isAgree) {
         if (!this.isGameRuning) {
-          this.gameLoop();
+          this.gameLoop(this.speed);
           this.isGameRuning = true;
+          console.log(this.isGameRuning, "in game");
         } else {
           this.gamePaused = !this.gamePaused;
         }
@@ -73,7 +86,7 @@ export default {
       }
       this.snakeDirection = getInputDirection(key, this.snakeDirection);
     },
-    gameLoop() {
+    gameLoop(newSpeed) {
       const timeId = setInterval(() => {
         if (!this.gamePaused) {
           this.updateGame();
@@ -82,7 +95,13 @@ export default {
           clearInterval(timeId);
           // alert("you lose");
         }
-      }, 1000 / this.speed);
+        if (this.score === this.level * 10) {
+          this.level += 1;
+          this.speed += 2;
+          clearInterval(timeId);
+          this.gameLoop(this.speed);
+        }
+      }, 1000 / newSpeed);
     },
     updateGame() {
       this.renderSnake();
@@ -144,6 +163,7 @@ export default {
       this.snakeDirection = { x: 0, y: -1, dir: "0deg" };
       this.score = 0;
       this.user.score = 0;
+      (this.speed = 5), (this.level = 1);
     },
     getRandomPosition() {
       let newPosition;

@@ -1,6 +1,7 @@
 <template>
   <div class="game-wrapper" :class="{ dark: !isNameInput }">
     <h2 v-if="isNameInput">Snake Game</h2>
+    <CoolText v-else :coolText="title" />
     <ModalName
       v-if="!isNameInput"
       :updateUser="updateUser"
@@ -18,10 +19,12 @@
 <script>
 import GameBoard from "./components/GameBoard.vue";
 import ModalName from "./components/ModalName.vue";
+import CoolText from "./components/CoolText.vue";
 export default {
   components: {
     GameBoard,
     ModalName,
+    CoolText,
   },
   data() {
     return {
@@ -29,6 +32,7 @@ export default {
       isNameInput: false,
       user: {},
       scoreList: [],
+      title: "Snake Game",
     };
   },
   methods: {
