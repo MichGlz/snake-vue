@@ -1,5 +1,7 @@
 <template>
-  <span :style="{ 'animation-delay': delayStr }">{{ char }}</span>
+  <span :id="letterId" :style="{ 'animation-delay': delayStr }">{{
+    char
+  }}</span>
 </template>
 <script>
 export default {
@@ -26,13 +28,25 @@ export default {
       return (this.length - this.index) * 0.2;
     },
     newTimeStr() {
-      return this.newTime + "s";
+      return `${this.newTime}s`;
     },
     timeoutTotal() {
       return (this.delay + 1) * 1000;
     },
+    letterId() {
+      return "char-" + (this.index + 1);
+    },
   },
   mounted() {
+    document
+      .getElementById(this.letterId)
+      .addEventListener("animationend", (e) => {
+        if (e.target.classList.contains("colored")) return;
+        // e.target.style.animation = "unset";
+
+        // e.target.setProperty("--new-time", this.newTimeStr);
+        e.target.classList.add("colored");
+      });
     setTimeout(() => {
       this.isTime = true;
     }, this.timeoutTotal);
@@ -48,7 +62,6 @@ span {
   white-space: pre;
   transform-origin: bottom;
   animation: appear 1s cubic-bezier(0.07, 0.67, 0.23, 1.59) 1 forwards;
-  /* animation-delay: var(--delay); */
 }
 
 @keyframes appear {
@@ -63,10 +76,9 @@ span {
   }
 }
 
-span.colored {
-  --new-time: v-bind(newTimeStr);
+.colored {
   opacity: 1;
-  animation: coloring var(--new-time) ease-out 1 forwards;
+  animation: coloring v-bind("newTimeStr") ease-out 1 forwards;
 }
 @keyframes coloring {
   40%,
@@ -81,7 +93,7 @@ span.colored {
 
   100%,
   0% {
-    color: cornsilk;
+    color: #3d3d3d;
   }
 }
 </style>
