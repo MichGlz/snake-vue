@@ -15,7 +15,11 @@
       :index="index"
       :segment="segment"
     />
-    <Food :position="foodPosition" />
+    <Food
+      v-for="(apple, index) in food"
+      :position="apple"
+      :key="'apple' + index + 1"
+    />
   </div>
   <ModalInstructions
     v-if="!isAgree"
@@ -61,6 +65,7 @@ export default {
       isAgree: false,
       count: 0,
       gridSize: 21,
+      food: [{ x: 0, y: 0 }],
       foodPosition: {},
       onFood: false,
       snakeSegments: [
@@ -112,13 +117,15 @@ export default {
       this.snakeSegments = updateSnake(
         [...this.snakeSegments],
         this.snakeDirection,
-        this.foodPosition
+        this.food[0]
       );
     },
     renderFood() {
-      if (equalPositions(this.snakeSegments[0], this.foodPosition)) {
+      if (equalPositions(this.snakeSegments[0], this.food[0])) {
         this.score += 1;
-        this.foodPosition = this.getRandomPosition();
+        this.food.shift();
+        const newPosition = this.getRandomPosition();
+        this.food.push(newPosition);
       }
     },
     checkColision() {
@@ -153,7 +160,7 @@ export default {
       this.isGameRuning = false;
       this.isAgree = false;
       this.count = 0;
-      this.foodPosition = this.randomGridPosition();
+      this.food.push(this.randomGridPosition());
       this.onFood = false;
       this.snakeSegments = [
         { x: 11, y: 10, dir: "0deg", isHead: true },
@@ -181,10 +188,12 @@ export default {
   },
   computed: {},
   mounted() {
+    console.log("hola");
     window.addEventListener("keydown", (e) => {
       this.handleKeydown(e.code);
     });
-    this.foodPosition = this.getRandomPosition();
+    const newPosition = this.getRandomPosition();
+    this.food.push(newPosition);
   },
 };
 </script>
