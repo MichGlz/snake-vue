@@ -160,6 +160,7 @@ export default {
       this.isGameRuning = false;
       this.isAgree = false;
       this.count = 0;
+      this.food.shift();
       this.food.push(this.randomGridPosition());
       this.onFood = false;
       this.snakeSegments = [
@@ -192,6 +193,7 @@ export default {
     window.addEventListener("keydown", (e) => {
       this.handleKeydown(e.code);
     });
+    this.food.shift();
     const newPosition = this.getRandomPosition();
     this.food.push(newPosition);
   },

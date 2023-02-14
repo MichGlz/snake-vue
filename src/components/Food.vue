@@ -1,5 +1,8 @@
 <template>
-  <div class="food"></div>
+  <div
+    class="food"
+    :style="{ animation: 'grow .5s ease-in-out 1 forwards' }"
+  ></div>
 </template>
 
 <script>
@@ -20,17 +23,20 @@ export default {
   height: 100%;
   background-color: #3d3d3d;
   border-radius: 50%;
-  grid-row-start: 1;
-  grid-column-start: 1;
-
-  /* transform: scale(1 );*/
-  animation: grow 1s ease-in-out 2 forwards;
+  grid-row-start: v-bind("position.y");
+  grid-column-start: v-bind("position.x");
+  transform: scale(1);
 }
 
 @keyframes grow {
+  0% {
+    transform: scale(0.1);
+  }
+  90% {
+    transform: scale(1.2);
+  }
   100% {
-    grid-row-start: v-bind("position.y");
-    grid-column-start: v-bind("position.x");
+    transform: scale(1);
   }
 }
 </style>
