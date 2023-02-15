@@ -6,7 +6,7 @@
         :index="index"
         :key="index + 1"
         :char="char"
-        :lenght="length"
+        :length="length"
       />
     </h1>
   </div>
@@ -29,7 +29,7 @@ export default {
       return this.coolText.split("");
     },
     length() {
-      return this.textArr.length;
+      return this.coolText.split("").length;
     },
   },
 };

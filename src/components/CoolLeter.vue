@@ -1,5 +1,7 @@
 <template>
-  <span :style="{ 'animation-delay': delayStr }">{{ char }}</span>
+  <span :id="letterId" :style="{ 'animation-delay': delayStr }">{{
+    char
+  }}</span>
 </template>
 <script>
 export default {
@@ -23,10 +25,13 @@ export default {
       return (this.length - this.index) * 0.2;
     },
     newTimeStr() {
-      return this.newTime + "s";
+      return `${this.newTime}s`;
     },
     timeoutTotal() {
       return (this.delay + 1) * 1000;
+    },
+    letterId() {
+      return "char-" + (this.index + 1);
     },
   },
 };
