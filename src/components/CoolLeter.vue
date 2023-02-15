@@ -47,9 +47,6 @@ export default {
         // e.target.setProperty("--new-time", this.newTimeStr);
         e.target.classList.add("colored");
       });
-    setTimeout(() => {
-      this.isTime = true;
-    }, this.timeoutTotal);
   },
 };
 </script>

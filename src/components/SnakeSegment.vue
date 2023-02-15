@@ -20,6 +20,8 @@ export default {
 
 <style scoped>
 .snake {
+  width: 100%;
+  height: 100%;
   grid-row-start: v-bind("segment.y");
   grid-column-start: v-bind("segment.x");
 }
