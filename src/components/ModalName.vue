@@ -4,7 +4,7 @@
       <form class="form-modal" @submit.prevent="onsubmit">
         <p>Before starting the game, enter your name please.</p>
         <label class="label-modal">
-          name:
+          <span> name: </span>
           <input
             type="text"
             class="input-modal"
