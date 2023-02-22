@@ -77,6 +77,9 @@ export default {
   border: solid 1px #3d3d3d;
   border-radius: 2vmin;
   box-shadow: 0 0 15px 2px#3d3d3d;
+  opacity: 0;
+  transform: scale(0.2);
+  animation: appearmodal 0.3s ease-in-out 1 forwards;
 }
 .label-modal {
   display: flex;
@@ -148,6 +151,13 @@ export default {
   }
   60% {
     opacity: 1;
+  }
+}
+
+@keyframes appearmodal {
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 </style>

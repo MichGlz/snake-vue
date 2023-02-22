@@ -2,14 +2,14 @@
   <div class="app-wrapper">
     <div class="game-wrapper" :class="{ dark: !isNameInput }">
       <h2 v-if="isNameInput">Snake Game</h2>
-      <CoolText v-else :coolText="title" />
+      <CoolText v-else :coolText="title" @set-animation-end="setAnimationEnd" />
       <ModalName
-        v-if="!isNameInput"
+        v-if="!isNameInput && animationEnd"
         :updateUser="updateUser"
         @name-submited="updateUser"
       />
       <GameBoard
-        v-else
+        v-else-if="animationEnd"
         :speed="FRAMES_PER_SECOND"
         :user="user"
         :updateScoreList="updateScoreList"
@@ -64,7 +64,7 @@
 <script>
 import GameBoard from "./components/GameBoard.vue";
 import ModalName from "./components/ModalName.vue";
-import CoolText from "./components/CoolText.vue";
+import CoolText from "./components/CoolText/CoolText.vue";
 export default {
   components: {
     GameBoard,
@@ -78,6 +78,7 @@ export default {
       user: {},
       scoreList: [],
       title: "Snake Game",
+      animationEnd: false,
     };
   },
   methods: {
@@ -100,6 +101,9 @@ export default {
       let newList = list.slice(0, 10);
       localStorage.setItem("scoreList", `${JSON.stringify(newList)}`);
       this.scoreList = [...list];
+    },
+    setAnimationEnd() {
+      this.animationEnd = true;
     },
   },
   mounted() {
