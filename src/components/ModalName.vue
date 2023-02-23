@@ -79,7 +79,7 @@ export default {
   box-shadow: 0 0 15px 2px#3d3d3d;
   opacity: 0;
   transform: scale(0.2);
-  animation: appearmodal 0.3s ease-in-out 1 forwards;
+  animation: appearmodal 0.2s ease-in-out 1.5s 1 forwards;
 }
 .label-modal {
   display: flex;

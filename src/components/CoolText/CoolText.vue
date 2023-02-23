@@ -3,10 +3,12 @@
     <h1 class="cool-text">
       <CoolWord
         v-for="(word, index) in wordsArr"
-        :index="index"
+        :wordIndex="index"
         :key="index + 1"
         :word="word"
         :length="word.length"
+        :textLength="textLength"
+        :wordsArr="wordsArr"
       />
     </h1>
   </div>
@@ -29,15 +31,18 @@ export default {
     wordsArr() {
       return this.coolText.split(" ");
     },
-    // length() {
-    //   return this.coolText.split(" ").length;
-    // },
+    textMaxIndex() {
+      return this.coolText.length - 1;
+    },
+    textLength() {
+      return this.coolText.length;
+    },
   },
   mounted() {
     //check if is an score list in the local storage, if not set one
     setTimeout(() => {
       this.$emit("set-animation-end");
-    }, 2500);
+    }, 2000);
   },
 };
 </script>
