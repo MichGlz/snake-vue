@@ -4,7 +4,7 @@
       <h2 v-if="isNameInput">Snake Game</h2>
       <CoolText v-else :coolText="title" @set-animation-end="setAnimationEnd" />
       <ModalName
-        v-if="!isNameInput && animationEnd"
+        v-if="!isNameInput"
         :updateUser="updateUser"
         @name-submited="updateUser"
       />
